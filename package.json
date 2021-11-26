@@ -1,16 +1,20 @@
 {
   "name": "play-media",
-  "version": "1.0.0",
-  "description": "\"# play-media\"",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "Audio accessories for play-opus and play-voice [ coming soon ]",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublishOnly": "tsc --build --clean && tsc --build --verbose"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/play-dl/play-media.git"
   },
   "keywords": [],
+  "files": [
+    "dist/*"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -18,7 +22,10 @@
   },
   "homepage": "https://github.com/play-dl/play-media#readme",
   "devDependencies": {
-    "@types/node": "^16.11.10"
+    "@types/node": "^16.11.10",
+    "typedoc": "^0.22.10",
+    "typedoc-plugin-missing-exports": "^0.22.6",
+    "typescript": "^4.5.2"
   },
   "optionalDependencies": {
     "opusscript": "^0.0.8",

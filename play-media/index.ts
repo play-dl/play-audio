@@ -1,0 +1,1 @@
+export { OpusDecoder, OpusEncoder } from './opus'
