@@ -18,7 +18,9 @@ export abstract class OpusTransformStream extends Transform {
 	protected pcm_length : number;
 	constructor(options : OpusTransformOptions){
 		super(options.transform)
-		this.encoder = createOpusHandler(options, options.encoder)
+		const handler = createOpusHandler(options, options.encoder)
+		if(handler instanceof Error) throw handler
+		this.encoder = handler 
 		this.pcm_length = options.frameSize * options.channels * 2.
 	}
 
