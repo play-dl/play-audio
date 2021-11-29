@@ -1,6 +1,6 @@
-# play-media
+# play-audio
 
 
-Website for play-media.
+Website for play-audio.
 
-https://play-dl.github.io/play-stream/
+https://play-dl.github.io/play-audio/
