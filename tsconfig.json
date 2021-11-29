@@ -18,5 +18,5 @@
 		"skipLibCheck": true,
 		"resolveJsonModule": true
 	},
-	"include": ["play-music/**/**/*.ts"]
+	"include": ["play-stream/**/**/*.ts"]
 }
