@@ -42,6 +42,7 @@ export class OggDemuxer extends Duplex {
         }
 
         this.remaining = chunk
+        this.ogg_head = undefined
         done()
     }
 
@@ -57,26 +58,24 @@ export class OggDemuxer extends Duplex {
 
     private readOggData( chunk : Buffer) : ParseResult {
         if(!this.ogg_head) return false
-        if (chunk.length < this.ogg_head.sizes[0] ) return false;
+        if (chunk.length < this.ogg_head.totalSize ) return false;
 
-        const size = this.ogg_head.sizes.shift() as number
-        const segment = chunk.slice(0, size);
-
-        if (this.opus_head) {
-            if (segment.compare(OPUS_TAGS, 0, 8, 0, 8) === 0) this.emit('tags', segment);
-			else this.push(segment);
+        let start = 0;
+        for (const size of this.ogg_head.sizes){
+            const segment = chunk.slice(start, start + size)
+            if (this.opus_head) {
+                if ( size >= 8 && segment.compare(OPUS_TAGS, 0, 8, 0, 8) === 0) this.emit('tags', segment);
+                else this.push(segment);
+            }
+            else if (segment.compare(OPUS_HEAD, 0, 8, 0, 8) === 0) {
+                this.emit('head', segment);
+                this.opus_head = segment;
+            }
+            else return new Error("Unknown Segment Found")
+            start += size
         }
-        else if (segment.compare(OPUS_HEAD, 0, 8, 0, 8) === 0) {
-            this.emit('head', segment);
-            this.opus_head = segment;
-        }
-        else return new Error("Unknown Segment Found")
-
-        if (this.ogg_head.sizes.length !== 0) return this.readOggData(chunk.slice(size))
-        else {
-            this.ogg_head = undefined
-            return this.readOggPage(chunk)
-        }
+        this.ogg_head = undefined
+        return chunk.slice(start)
     }
 
     private readOggHead(chunk : Buffer) : ParseResult {
@@ -92,13 +91,19 @@ export class OggDemuxer extends Duplex {
         const sizes : number[] = []
         let totalSize = 0
 
-        for(let i = 0; i < pageSegments; i++){
+        for (let i = 0; i < pageSegments;) {
             let size = 0;
-            size = table.readUInt8(i);
-            totalSize += size
-            sizes.push(size)
+            let x = 255;
+            while (x === 255) {
+                if (i >= table.length)
+                    return false;
+                x = table.readUInt8(i);
+                i++;
+                size += x;
+            }
+            sizes.push(size);
+            totalSize += size;
         }
-        if (sizes[sizes.length - 1] > 255) return new Error("Last Lancing Table Value is not less than 255")
         this.ogg_head = {
             sizes : sizes,
             totalSize : totalSize,

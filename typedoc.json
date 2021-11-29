@@ -1,5 +1,5 @@
 {
-    "entryPoints": ["./play-stream"],
+    "entryPoints": ["./play-audio"],
     "plugin" : [ "typedoc-plugin-missing-exports" ],
     "out": "docs/docs"
 }
