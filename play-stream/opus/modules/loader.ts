@@ -10,8 +10,8 @@ const modules = {
 }
 
 export function createOpusHandler(options : OpusHandlerOptions, preference?: "play-opus" | "opusscript"): OpusEncoder | Error{
-    if( preference !== "opusscript" && preference !== "play-opus" ) return new Error('Supported modules for play-media :\n- play-opus\n- opusscript')
     if(preference) {
+        if( preference !== "opusscript" && preference !== "play-opus" ) return new Error('Supported modules for play-media :\n- play-opus\n- opusscript')
         try {
             require(preference)
         } catch {
