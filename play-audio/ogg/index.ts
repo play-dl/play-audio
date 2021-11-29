@@ -1,1 +1,1 @@
-export { OggDemuxer } from './OggDemuxer'
+export { OggDemuxer } from './OggDemuxer';

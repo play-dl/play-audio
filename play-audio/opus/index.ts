@@ -1,2 +1,2 @@
-export { OpusEncoder } from './OpusEncoder'
-export { OpusDecoder } from './OpusDecoder'
+export { OpusEncoder } from './OpusEncoder';
+export { OpusDecoder } from './OpusDecoder';
