@@ -1,12 +1,12 @@
-import { AbstractOpusHandler, OpusHandlerOptions } from "./constant";
+import { OpusHandlerOptions } from "./constant";
 
 
-export class OpusHandler extends AbstractOpusHandler {
-
+export class OpusHandler {
+    protected options : OpusHandlerOptions 
     private encoder : any
     constructor(options : OpusHandlerOptions){
         const OpusScript = require("opusscript");
-        super(options)
+        this.options = options
         this.encoder = new OpusScript(options.rate, options.channels)
     }
 
