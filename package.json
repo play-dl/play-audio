@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "pretty": "prettier --config .prettierrc \"play-audio/*.ts\" \"play-audio/*/*.ts\" \"play-audio/*/*/*.ts\" --write ",
-    "prepublishOnly": "npm run pretty && tsc --build --clean && tsc --build --verbose"
+    "prepublishOnly": "tsc --build --clean && tsc --build --verbose"
   },
   "repository": {
     "type": "git",
