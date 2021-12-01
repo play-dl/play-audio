@@ -1,4 +1,3 @@
-import { TransformCallback } from 'stream';
 import { OpusDuplexStream, OpusTransformOptions } from './DuplexStream';
 
 export class OpusEncoder extends OpusDuplexStream {
@@ -9,7 +8,7 @@ export class OpusEncoder extends OpusDuplexStream {
         this.remaining = Buffer.allocUnsafe(0);
     }
 
-    public _write(chunk: Buffer, _: BufferEncoding, done: TransformCallback): void {
+    public _write(chunk: Buffer, _: BufferEncoding, done: (error?: Error | null) => void): void {
         const pcmChunk = Buffer.concat([this.remaining, chunk]);
 
         let i = 0;

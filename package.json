@@ -10,18 +10,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/play-dl/play-media.git"
+    "url": "git+https://github.com/play-dl/play-audio.git"
   },
   "keywords": [],
   "files": [
     "dist/*"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/play-dl/play-media/issues"
+    "url": "https://github.com/play-dl/play-audio/issues"
   },
-  "homepage": "https://github.com/play-dl/play-media#readme",
+  "homepage": "https://github.com/play-dl/play-audio#readme",
   "devDependencies": {
     "@types/node": "^16.11.10",
     "prettier": "^2.5.0",

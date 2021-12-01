@@ -1,4 +1,3 @@
-import { TransformCallback } from 'stream';
 import { OpusDuplexStream, OpusTransformOptions } from './DuplexStream';
 
 const OPUS_HEAD = Buffer.from('OpusHead');
@@ -12,7 +11,7 @@ export class OpusDecoder extends OpusDuplexStream {
         super(options);
     }
 
-    public _write(chunk: Buffer, _: BufferEncoding, done: TransformCallback): void {
+    public _write(chunk: Buffer, _: BufferEncoding, done: (error?: Error | null) => void): void {
         if (chunk.compare(OPUS_HEAD, 0, 8, 0, 8) === 0) {
             this.opusHead = chunk;
             this.emit('opusHead', chunk);

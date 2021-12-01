@@ -39,15 +39,16 @@ export abstract class OpusDuplexStream extends Duplex {
 
     _read() {}
 
-    _destroy(): void {
+    _destroy(error: Error | null, callback: (error : Error | null) => void): void {
         this.cleanup();
+        callback(error);
     }
 
     public abstract _write(chunk: Buffer, enc: BufferEncoding, next: (error?: Error | null) => void): void;
 
-    _final(next: (error?: Error | null) => void) {
+    _final(callback: (error?: Error | null) => void) : void {
         this.cleanup();
-        next();
+        callback();
     }
 
     public abstract applyCTL(ctl: number, value: number): void;
