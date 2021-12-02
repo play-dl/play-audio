@@ -10,50 +10,50 @@ export const DataReturn = {
 export type DataReturnType = (buf : Buffer) => string | number
 
 export interface EBML {
-    version : number
-    readVersion : number
-    maxIDLength : number
-    maxSizeWidth : number
-    docType : number
-    docTypeVersion : number
-    docTypeReadVersion : number
+    version? : number
+    readVersion? : number
+    maxIDLength? : number
+    maxSizeWidth? : number
+    docType? : string
+    docTypeVersion? : number
+    docTypeReadVersion? : number
 }
 
 export interface Seek {
-    position : number
+    position? : number
 }
 
 export type SeekHead = Seek[]
 
 export interface Info {
-    duration : number
-    muxingApp : string
-    writingApp : string
+    duration? : number
+    muxingApp? : string
+    writingApp? : string
 }
 
 export type Tracks = TracksEntry[]
 
 export interface TracksEntry {
-    trackNumber : number
-    trackType : number
-    codecID : string
-    audio : Audio
+    trackNumber? : number
+    trackType? : number
+    codecID? : string
+    audio? : Audio
 }
 
 export interface Audio {
-    frequency : number
-    channels : number
-    bitDepth : number
+    frequency? : number
+    channels? : number
+    bitDepth? : number
 }
 
 export interface CueTrackPositions {
-    track : number
-    position : number
+    track? : number
+    position? : number
 }
 
 export interface CuePoint {
-    time : number
-    positions : CueTrackPositions
+    time? : number
+    positions? : CueTrackPositions
 }
 
 export type Cues = CuePoint[]
@@ -61,14 +61,14 @@ export type Cues = CuePoint[]
 export interface Cluster { time : number }
 
 export interface Segment {
-    seekHead : SeekHead
-    info : Info
-    tracks : Tracks
-    cues : Cues
-    cluster : Cluster
+    seekHead? : SeekHead
+    info? : Info
+    tracks? : Tracks
+    cues? : Cues
+    cluster? : Cluster
 }
 
-interface ElementsData {
+export interface ElementsData {
     name : string
     type : DataType
     return?: DataReturnType
@@ -81,8 +81,8 @@ export const elements: ElementsDataType = {
     "1a45dfa3" : {name : "ebml", type : DataType.master},
     "4286" : {name : "ebmlVersion", type : DataType.uint, return : DataReturn.uint},
     "42f7" : {name : "ebmlReadVersion", type : DataType.uint, return : DataReturn.uint},
-    "42f2" : {name : "ebmlMaxIDWidth", type : DataType.uint, return : DataReturn.uint},
-    "42f3" : {name : "ebmlMaxSizeWidth", type : DataType.uint, return : DataReturn.uint},
+    "42f2" : {name : "ebmlMaxIDLength", type : DataType.uint, return : DataReturn.uint},
+    "42f3" : {name : "ebmlMaxSizeLength", type : DataType.uint, return : DataReturn.uint},
     "4282" : {name : "docType", type : DataType.string, return : DataReturn.string},
     "4287" : {name : "docTypeVersion", type : DataType.uint, return : DataReturn.uint},
     "4285" : {name : "docTypeReadVersion", type : DataType.uint, return : DataReturn.uint},
