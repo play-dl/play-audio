@@ -41,24 +41,20 @@ export interface TracksEntry {
 }
 
 export interface Audio {
-    frequency? : number
+    rate? : number
     channels? : number
     bitDepth? : number
 }
 
-export interface CueTrackPositions {
+export interface CuePoint {
+    time? : number
     track? : number
     position? : number
 }
 
-export interface CuePoint {
-    time? : number
-    positions? : CueTrackPositions
-}
-
 export type Cues = CuePoint[]
 
-export interface Cluster { time : number }
+export interface Cluster { time? : number }
 
 export interface Segment {
     seekHead? : SeekHead

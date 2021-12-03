@@ -1,37 +1,40 @@
 import { Duplex, DuplexOptions } from "stream";
-import { readVint } from "./tools";
-import { DataType, EBML, elements, ElementsData, Segment } from "./WebmConstant";
+import { DataType, elements } from "./WebmConstant";
 import { WebmHeader } from "./WebmHeader";
 
-interface Metadata {
-    ebml? : EBML,
-    segment? : Segment
-}
+
 
 export class WebmDemuxer extends Duplex {
     remaining? : Buffer
     chunk? : Buffer
     cursor : number
     header : WebmHeader
+    headfound : boolean
+    private data_size : number
+    private data_length : number
 
     constructor(options : DuplexOptions){
         super(options)
         this.cursor = 0
         this.header = new WebmHeader()
+        this.headfound = false
+        this.data_length = 0
+        this.data_size = 0
     }
 
-    get vint_length(): number{
-        if (this.chunk) return (8 - Math.floor(Math.log2(this.chunk[this.cursor])))
-        else return -1
+    private get vint_length(): number{
+        return (8 - Math.floor(Math.log2(this.chunk![this.cursor])))
     }
 
-    get vint_value(): { length : number, value : number } {
-        if (!this.chunk) return { length : -1, value : -1 }
+    private get vint_value(): boolean {
+        if (!this.chunk) return false
         const length = this.vint_length
-        if(this.chunk.length < this.cursor + length) return { length, value : -1 }
+        if(this.chunk.length < this.cursor + length) return false
         let value = this.chunk[this.cursor] & ((1 << (8 - length)) - 1)
         for (let i = this.cursor + 1; i < this.cursor + length; i++) value = (value << 8) + this.chunk[i];
-        return { length, value }
+        this.data_size = length
+        this.data_length = value
+        return true
     }
 
     cleanup(){
@@ -48,38 +51,58 @@ export class WebmDemuxer extends Duplex {
             this.remaining = undefined
         }
         else this.chunk = chunk
+        const tag = this.readTag()
         
-        
+        if( tag instanceof Error) done(tag)
+        else done()
     }
 
     private readTag(){
         if (!this.chunk) return new Error("Chunk is missing")
-        while(this.chunk.length < this.cursor ){
+        
+        while(this.chunk.length > this.cursor ){
             const oldCursor = this.cursor
-            const idLength = this.vint_length
+            const id = this.vint_length
+            if(this.chunk.length < this.cursor + id) break;
 
-            if(this.chunk.length < this.cursor + idLength) break;
+            const ebmlID = this.parseEbmlID(this.chunk.slice(this.cursor, this.cursor + id).toString('hex'))
+            this.cursor += id
+            const vint = this.vint_value
 
-            const ebmlID = this.parseEbmlID(this.chunk.slice(this.cursor, this.cursor + idLength).toString('hex'))
-
-            this.cursor += idLength
-            const { length : sizeData, value : dataLength } = this.vint_value
-            if( dataLength === -1 ) {
+            if(!vint) {
                 this.cursor = oldCursor
                 break;
             }
-            this.cursor += sizeData
-            const data = this.chunk.slice(this.cursor, this.cursor + dataLength)
-            if(!ebmlID) {
-                this.cursor += dataLength;
+            if(!ebmlID){
+                this.cursor += this.data_size + this.data_length
                 continue;
             }
-            this.header.parse(ebmlID, data)
-            if(ebmlID.type !== DataType.master) this.cursor += dataLength
             
-        }
+            if(!this.headfound){
+                if(ebmlID.name === "ebml") this.headfound = true
+                else return new Error("Failed to find EBML ID at start of stream.")
+            }
 
-        this.remaining = this.chunk.slice(0, this.cursor)
+            const data = this.chunk.slice(this.cursor + this.data_size, this.cursor + this.data_size + this.data_length)
+            const parse = this.header.parse(ebmlID, data)
+            if(parse instanceof Error) return parse
+
+            if(ebmlID.type === DataType.master) {
+                this.cursor += this.data_size
+                continue;
+            }
+
+            if(this.chunk.length < this.cursor + this.data_size + this.data_length) break;
+            else this.cursor += this.data_size + this.data_length
+
+            if(ebmlID.name === 'simpleBlock'){
+                const track = this.header.segment.tracks![this.header.audioTrack]
+                if(!track || track.trackType !== 2) return new Error("No audio Track in this webm file.")
+                if((data[0] & 0xf) === track.trackNumber) this.push(data.slice(4))
+            }
+        }
+        this.remaining = this.chunk.slice(this.cursor)
+        this.cursor = 0
     }
 
     private parseEbmlID(ebmlID : string){
@@ -98,4 +121,37 @@ export class WebmDemuxer extends Duplex {
     }
 }
 
-   
+// const oldCursor = this.cursor
+//             const idLength = this.vint_length
+
+//             if(this.chunk.length < this.cursor + idLength) break;
+
+//             const ebmlID = this.parseEbmlID(this.chunk.slice(this.cursor, this.cursor + idLength).toString('hex'))
+
+//             this.cursor += idLength
+
+//             const vint = this.vint_value
+
+//             this.cursor += this.data_size
+//             if(!ebmlID) {
+//                 this.cursor += this.data_length;
+//                 continue;
+//             }
+//             else if((!vint || this.chunk.length < this.cursor + this.data_length) && ebmlID.type !== DataType.master) {
+//                 this.cursor = oldCursor
+//                 break;
+//             }
+//             const data = this.chunk.slice(this.cursor, this.cursor + this.data_length)
+            
+//             const parse = this.header.parse(ebmlID, data)
+//             if(parse instanceof Error) return parse
+//             if(!this.headfound){
+//                 if(!ebmlID) return new Error("Didn't Found EBML Tag at start of stream.")
+//                 else if(ebmlID.name === "ebml") this.headfound = true
+//                 else new Error("Wrong EBML ID at start of stream.")
+//             }
+//             if(ebmlID.name === 'simpleBlock'){
+//                 const track = this.header.segment.tracks![this.header.audioTrack]
+//                 if(!track || track.trackType !== 2) return new Error("No audio Track in this webm file.")
+//                 if((data[0] & 0xf) === track.trackNumber) this.push(data.slice(4))
+//             }
