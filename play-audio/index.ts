@@ -2,4 +2,4 @@ export { OpusDecoder, OpusEncoder } from './opus';
 
 export { OggDemuxer } from './ogg';
 
-export { WebmDemuxer } from './webm';
+export { WebmDemuxer, WebmHeader, elements } from './webm';

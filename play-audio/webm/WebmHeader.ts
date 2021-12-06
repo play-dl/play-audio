@@ -1,4 +1,4 @@
-import { DataType, EBML, ElementsData, Segment } from "./WebmConstant";
+import { EBML, ElementsData, Segment } from "./WebmConstant";
 
 
 export class WebmHeader {
