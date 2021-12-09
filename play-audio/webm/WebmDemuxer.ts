@@ -1,5 +1,5 @@
 import { Duplex, DuplexOptions } from "stream";
-import { DataType, elements } from "./WebmConstant";
+import { DataType, WebmElements } from "./WebmConstant";
 import { WebmHeader } from "./WebmHeader";
 
 
@@ -115,7 +115,7 @@ export class WebmDemuxer extends Duplex {
     }
 
     private parseEbmlID(ebmlID : string){
-        if(Object.keys(elements).includes(ebmlID)) return elements[ebmlID]
+        if(Object.keys(WebmElements).includes(ebmlID)) return WebmElements[ebmlID]
         else return false
     }
 

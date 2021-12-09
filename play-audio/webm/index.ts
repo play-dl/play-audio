@@ -1,3 +1,3 @@
 export { WebmDemuxer } from "./WebmDemuxer";
-export { elements } from "./WebmConstant";
+export { WebmElements } from "./WebmConstant";
 export { WebmHeader } from "./WebmHeader";

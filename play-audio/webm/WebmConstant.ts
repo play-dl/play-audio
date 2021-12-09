@@ -73,7 +73,7 @@ export interface ElementsData {
 export type ElementsDataType = { [key : string] : ElementsData }
 
 
-export const elements: ElementsDataType = {
+export const WebmElements: ElementsDataType = {
     "1a45dfa3" : {name : "ebml", type : DataType.master},
     "4286" : {name : "ebmlVersion", type : DataType.uint, return : DataReturn.uint},
     "42f7" : {name : "ebmlReadVersion", type : DataType.uint, return : DataReturn.uint},
