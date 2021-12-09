@@ -28,8 +28,7 @@ export class WebmDemuxer extends Duplex {
 			if ((1 << (7 - i)) & this.chunk![this.cursor])
 				break;
 		}
-		i++;
-		return i;
+		return ++i;
     }
 
     private get vint_value(): boolean {
