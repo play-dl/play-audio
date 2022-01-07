@@ -114,6 +114,7 @@ export class OggDemuxer extends Duplex {
 
     public _final(callback: (error?: Error) => void): void {
         this._cleanup();
+        this.push(null)
         callback();
     }
 

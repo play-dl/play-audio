@@ -125,6 +125,7 @@ export class WebmDemuxer extends Duplex {
 
     _final(callback: (error?: Error | null) => void): void {
         this.cleanup();
+        this.push(null)
         callback();
     }
 }
