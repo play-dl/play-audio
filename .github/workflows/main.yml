@@ -160,7 +160,6 @@ jobs:
 
       - name: Adding, committing and Pushing
         run: |
-          rm -r temp
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add *
