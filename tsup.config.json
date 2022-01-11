@@ -2,7 +2,7 @@
     "clean": true,
     "dts": true,
     "entryPoints": [
-        "play-dl/index.ts"
+        "play-audio/index.ts"
     ],
     "format": [
         "esm",
