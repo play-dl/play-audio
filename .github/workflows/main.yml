@@ -58,8 +58,8 @@ jobs:
           git push
 
   publish_ffmpeg:
-  needs: publish_docs
-  steps:
+    needs: publish_docs
+    steps:
       - name: Checkout play audio GitHub page repo
         uses: actions/checkout@v2
         with:
