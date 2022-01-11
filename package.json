@@ -4,6 +4,7 @@
   "description": "Audio accessories for play-opus and play-voice [ coming soon ]",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "module": "dist/index.mjs",
   "scripts": {
     "pretty": "prettier --config .prettierrc \"play-audio/*.ts\" \"play-audio/*/*.ts\" \"play-audio/*/*/*.ts\" --write ",
     "prepublishOnly": "tsup"
