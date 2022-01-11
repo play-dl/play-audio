@@ -1,5 +1,9 @@
-export { OpusDecoder, OpusEncoder } from './opus';
+import { OpusDecoder, OpusEncoder } from './opus';
 
-export { OggDemuxer } from './ogg';
+import { OggDemuxer } from './ogg';
 
-export { WebmDemuxer, WebmHeader, WebmElements } from './webm';
+import { WebmDemuxer, WebmHeader, WebmElements } from './webm';
+
+export { OpusDecoder, OggDemuxer, OpusEncoder, WebmDemuxer, WebmHeader, WebmElements };
+
+export default { OpusDecoder, OggDemuxer, OpusEncoder, WebmDemuxer, WebmHeader, WebmElements };

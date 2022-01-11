@@ -26,7 +26,7 @@ export class OggDemuxer extends Duplex {
 
     public _read() {}
 
-    public _write(chunk: Buffer, encoding: BufferEncoding, done: (error?: Error) => void) {
+    public _write(chunk: Buffer, _: BufferEncoding, done: (error?: Error) => void) {
         if (this.remaining) {
             chunk = Buffer.concat([this.remaining, chunk]);
             this.remaining = undefined;
@@ -114,7 +114,7 @@ export class OggDemuxer extends Duplex {
 
     public _final(callback: (error?: Error) => void): void {
         this._cleanup();
-        this.push(null)
+        this.push(null);
         callback();
     }
 
