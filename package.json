@@ -1,6 +1,6 @@
 {
   "name": "play-audio",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "Audio accessories for play-opus and play-voice [ coming soon ]",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

@@ -163,6 +163,9 @@ export class WebmHeader {
                 if (ebmlID.return)
                     this.segment.cues![this.segment.cues!.length - 1].position = ebmlID.return(chunk) as number;
                 break;
+
+            default:
+                break;
         }
     }
 }
