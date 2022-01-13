@@ -99,58 +99,8 @@ jobs:
           rm -r temp
           gzip ffmpeg-darwin-arm64
 
-      - name: Upload Release [ FFmpeg Windows x64 ]
-        uses: JasonEtco/upload-to-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Release assests
+        uses: shogo82148/actions-upload-release-asset@v1
         with:
-          args: ffmpeg-win32-x64.exe.gz application/gzip
-
-      - name: Upload Release [ FFmpeg Windows ia32 ]
-        uses: JasonEtco/upload-to-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: ffmpeg-win32-ia32.exe.gz application/gzip
-      
-      - name: Upload Release [ FFmpeg Linux x64 ]
-        uses: JasonEtco/upload-to-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: ffmpeg-linux-x64.gz application/gzip
-      
-      - name: Upload Release [ FFmpeg Linux ia32 ]
-        uses: JasonEtco/upload-to-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: ffmpeg-linux-ia32.gz application/gzip
-      
-      - name: Upload Release [ FFmpeg Linux arm ]
-        uses: JasonEtco/upload-to-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: ffmpeg-linux-arm.gz application/gzip
-      
-      - name: Upload Release [ FFmpeg Linux arm64 ]
-        uses: JasonEtco/upload-to-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: ffmpeg-linux-arm64.gz application/gzip
-      
-      - name: Upload Release [ FFmpeg MacOs x64 ]
-        uses: JasonEtco/upload-to-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: ffmpeg-darwin-x64.gz application/gzip
-      
-      - name: Upload Release [ FFmpeg MacOs arm64 ]
-        uses: JasonEtco/upload-to-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: ffmpeg-darwin-arm64.gz application/gzip
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: *.gz
