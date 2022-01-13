@@ -15,7 +15,7 @@ jobs:
         run: |
           mkdir temp
           cd temp
-          curl -L https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z -o windows.7z
+          curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 -L https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z -o windows.7z
           7zr x windows.7z
           cp ffmpeg-*_build/bin/ffmpeg.exe ../ffmpeg-win32-x64.exe
           cd ..
@@ -26,7 +26,7 @@ jobs:
         run: |
           mkdir temp
           cd temp
-          curl -L https://github.com/sudo-nautilus/FFmpeg-Builds-Win32/releases/download/latest/ffmpeg-master-latest-win32-gpl.zip -o windows.zip
+          curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 -L https://github.com/sudo-nautilus/FFmpeg-Builds-Win32/releases/download/latest/ffmpeg-master-latest-win32-gpl.zip -o windows.zip
           unzip windows.zip
           cp ffmpeg-*-gpl/bin/ffmpeg.exe ../ffmpeg-win32-ia32.exe
           cd ..
@@ -48,7 +48,7 @@ jobs:
         run: |
           mkdir temp
           cd temp
-          curl -L https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-i686-static.tar.xz -o linux.tar.xz
+          curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 -L https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-i686-static.tar.xz -o linux.tar.xz
           tar xvf linux.tar.xz
           cp ffmpeg-*-static/ffmpeg ../ffmpeg-linux-ia32
           cd ..
@@ -59,7 +59,7 @@ jobs:
         run: |
           mkdir temp
           cd temp
-          curl -L https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-armhf-static.tar.xz -o linux.tar.xz
+          curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 -L https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-armhf-static.tar.xz -o linux.tar.xz
           tar xvf linux.tar.xz
           cp ffmpeg-*-static/ffmpeg ../ffmpeg-linux-arm
           cd ..
@@ -70,7 +70,7 @@ jobs:
         run: |
           mkdir temp
           cd temp
-          curl -L https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-arm64-static.tar.xz -o linux.tar.xz
+          curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 -L https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-arm64-static.tar.xz -o linux.tar.xz
           tar xvf linux.tar.xz
           cp ffmpeg-*-static/ffmpeg ../ffmpeg-linux-arm64
           cd ..
@@ -81,7 +81,7 @@ jobs:
         run: |
           mkdir temp
           cd temp
-          curl -L https://evermeet.cx/ffmpeg/ffmpeg-4.4.1.7z -o darwin.7z
+          curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 -L https://evermeet.cx/ffmpeg/ffmpeg-4.4.1.7z -o darwin.7z
           7zr x darwin.7z
           cp ffmpeg ../ffmpeg-darwin-x64
           cd ..
@@ -92,7 +92,7 @@ jobs:
         run: |
           mkdir temp
           cd temp
-          curl -L https://www.osxexperts.net/FFmpeg441.zip -o darwin.zip
+          curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 -L https://www.osxexperts.net/FFmpeg441.zip -o darwin.zip
           unzip darwin.zip
           cp ffmpeg ../ffmpeg-darwin-arm64
           cd ..
