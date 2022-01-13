@@ -37,7 +37,7 @@ jobs:
         run: |
           mkdir temp
           cd temp
-          curl -L https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz -o linux.tar.xz
+          curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 -L https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz -o linux.tar.xz
           tar xvf linux.tar.xz
           cp ffmpeg-*-static/ffmpeg ../ffmpeg-linux-x64
           cd ..
